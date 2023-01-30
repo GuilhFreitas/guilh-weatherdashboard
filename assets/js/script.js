@@ -22,8 +22,8 @@ asideEl.addEventListener('click', function(event){
     }
 
     // fetches latitude and longitude for the search term using Geocoding API
-    let APIkey = '0fa3bf96a49d09b12dcec88d6fd1e0bd';
-    let geoQueryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${APIkey}`
+    let myAPIkey = '0fa3bf96a49d09b12dcec88d6fd1e0bd';
+    let geoQueryURL = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${myAPIkey}`
     let lat = '';
     let lon = '';
     fetch(geoQueryURL)
@@ -33,10 +33,10 @@ asideEl.addEventListener('click', function(event){
         lat = location[0].lat;
         lon = location[0].lon;
 
-        return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${APIkey}`) 
+    // fetches current weather data and displays it on the page
+        return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${myAPIkey}`) 
     })
 
-    // fetches current weather data and displays it on the page
     .then(response => response.json())
     .then(function(weatherData){
         console.log(weatherData);
@@ -51,7 +51,41 @@ asideEl.addEventListener('click', function(event){
         <p>Temp: ${temp} °C</p>
         <p>Wind: ${wind} KPH</p>
         <p>Humidity: ${humidity}%`;
+
+    // fetches 5 day forecast data and displays it on the page
+        return fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${myAPIkey}`)
     })
+
+    .then(response => response.json())
+    .then(function(forecastData){
+        console.log(forecastData);
+        forecastEl.innerHTML = `<h3>5-Day Forecast:</h3>`;
+        console.log('forecast loop starts next')
+        for (let i = 0; i < forecastData.list.length; i = i + 8) {
+            console.log(`loop ${i}`);
+            const dailyData = forecastData.list[i];
+            let date = moment(dailyData.dt, 'X').format('DD/MM/YY');
+            let temp = dailyData.main.temp;
+            let humidity = dailyData.main.humidity;
+            let wind = dailyData.wind.speed;
+            let iconURL = `http://openweathermap.org/img/wn/${dailyData.weather[0].icon}@2x.png`;
+
+            let cardEl = document.createElement('div');
+            cardEl.setAttribute('class', 'card');
+            cardEl.innerHTML = `<div class="card-body">
+            <h4>${date}</h4>
+            <img src=${iconURL}>
+            <p>Temp: ${temp} °C</p>
+            <p>Wind: ${wind} KPH</p>
+            <p>Humidity: ${humidity}%
+            </div>`;
+
+            forecastEl.appendChild(cardEl);
+
+
+        }
+    })
+
 })
 
 // saves searched city to history in local storage and refreshes displayed history
