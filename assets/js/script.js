@@ -3,12 +3,21 @@ let todayEl = document.querySelector('#today');
 let forecastEl = document.querySelector('#forecast');
 let searchButtonEl = document.querySelector('#search-button');
 let searchInputEl = document.querySelector('#search-input');
+let asideEl = document.querySelector('aside')
 
-searchButtonEl.addEventListener('click', function(event){
+asideEl.addEventListener('click', function(event){
     event.preventDefault();
-    let APIkey = '0fa3bf96a49d09b12dcec88d6fd1e0bd';
 
-    let cityName = searchInputEl.value;
+    let cityName = '';
+    if (event.target.matches('#search-button')){
+        cityName = searchInputEl.value;
+    }else if(event.target.matches('.btn-history')){
+        cityName = event.target.textContent;
+    }else{
+        return;
+    }
+
+    let APIkey = '0fa3bf96a49d09b12dcec88d6fd1e0bd';
     let geoQueryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${APIkey}`
     let lat = '';
     let lon = '';
@@ -37,7 +46,7 @@ searchButtonEl.addEventListener('click', function(event){
         <p>Humidity: ${humidity}%`;
 
         let buttonEl = document.createElement('button');
-        buttonEl.setAttribute('class', 'btn btn-secondary');
+        buttonEl.setAttribute('class', 'btn btn-secondary btn-history');
         buttonEl.textContent = cityName;
         historyEl.prepend(buttonEl);
 
