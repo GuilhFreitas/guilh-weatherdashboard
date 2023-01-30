@@ -15,29 +15,19 @@ searchButtonEl.addEventListener('click', function(event){
     fetch(geoQueryURL)
     .then(response => response.json())
     .then(function(location){
-        console.log(location);
         lat = location[0].lat;
-        console.log(lat);
         lon = location[0].lon;
-        console.log(lon);
 
         return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${APIkey}`) 
     })
     .then(response => response.json())
     .then(function(weatherData){
-        console.log(weatherData);
         let name = weatherData.name;
-        console.log(name);
         let temp = weatherData.main.temp;
-        console.log(temp);
         let wind = weatherData.wind.speed;
-        console.log(wind);
         let humidity = weatherData.main.humidity;
-        console.log(humidity);
         let iconURL = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
-        console.log(iconURL);
         let date = moment(weatherData.dt, 'X').format('DD/MM/YY');
-        console.log(date);
 
         todayEl.innerHTML = ``;
         todayEl.innerHTML = `<h2>${name} (${date})<img src=${iconURL}></h2>
@@ -49,5 +39,17 @@ searchButtonEl.addEventListener('click', function(event){
         buttonEl.setAttribute('class', 'btn btn-secondary');
         buttonEl.textContent = name;
         historyEl.prepend(buttonEl);
+
+        let searchHistory = JSON.parse(localStorage.getItem('search_history'));
+        if (searchHistory !== null){
+            if(searchHistory.length >= 6){
+                searchHistory.pop();
+            }
+            searchHistory.unshift(name);
+            localStorage.setItem('search_history', JSON.stringify(searchHistory));
+        }else{
+            localStorage.setItem('search_history', JSON.stringify([name]));
+        }
+        console.log(JSON.parse(localStorage.getItem('search_history')));
     })
 })
