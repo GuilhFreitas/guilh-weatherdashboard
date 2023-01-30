@@ -14,17 +14,36 @@ searchButtonEl.addEventListener('click', function(event){
     let lon = '';
     fetch(geoQueryURL)
     .then(response => response.json())
-    .then(function(response){
-        console.log(response);
-        lat = response[0].lat;
+    .then(function(location){
+        console.log(location);
+        lat = location[0].lat;
         console.log(lat);
-        lon = response[0].lon;
+        lon = location[0].lon;
         console.log(lon);
 
-        return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIkey}`) 
+        return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${APIkey}`) 
     })
     .then(response => response.json())
-    .then(function(response){
-        console.log(response);
+    .then(function(weatherData){
+        console.log(weatherData);
+        let name = weatherData.name;
+        console.log(name);
+        let temp = weatherData.main.temp;
+        console.log(temp);
+        let wind = weatherData.wind.speed;
+        console.log(wind);
+        let humidity = weatherData.main.humidity;
+        console.log(humidity);
+        let iconURL = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
+        console.log(iconURL);
+        let date = moment(weatherData.dt, 'X').format('DD/MM/YY');
+        console.log(date);
+
+        
+
+        todayEl.innerHTML = `<h2>${name} (${date})<img src=${iconURL}></h2>
+        <p>Temp: ${temp} °C</p>
+        <p>Wind: ${wind} KPH</p>
+        <p>Humidity: ${humidity}%`
     })
 })
