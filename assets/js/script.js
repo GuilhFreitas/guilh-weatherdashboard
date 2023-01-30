@@ -39,11 +39,15 @@ searchButtonEl.addEventListener('click', function(event){
         let date = moment(weatherData.dt, 'X').format('DD/MM/YY');
         console.log(date);
 
-        
-
+        todayEl.innerHTML = ``;
         todayEl.innerHTML = `<h2>${name} (${date})<img src=${iconURL}></h2>
         <p>Temp: ${temp} °C</p>
         <p>Wind: ${wind} KPH</p>
-        <p>Humidity: ${humidity}%`
+        <p>Humidity: ${humidity}%`;
+
+        let buttonEl = document.createElement('button');
+        buttonEl.setAttribute('class', 'btn btn-secondary');
+        buttonEl.textContent = name;
+        historyEl.prepend(buttonEl);
     })
 })
