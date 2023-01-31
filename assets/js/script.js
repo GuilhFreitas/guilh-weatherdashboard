@@ -14,7 +14,13 @@ asideEl.addEventListener('click', function(event){
     // distinguishes between search button and search history
     if (event.target.matches('#search-button')){
         cityName = searchInputEl.value;
-        storeHistory(cityName);
+        // does not allow empty string
+        if (cityName === ''){
+            alert('Please enter the name of a city.');
+            return;
+        }else{
+            storeHistory(cityName);
+        }
     }else if(event.target.matches('.btn-history')){
         cityName = event.target.textContent;
     }else{
