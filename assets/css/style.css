@@ -17,3 +17,11 @@
 p {
     font-size: 1.4em;
 }
+
+input {
+    width: 75%;
+}
+
+/* #search-button {
+    width: 10%;
+} */

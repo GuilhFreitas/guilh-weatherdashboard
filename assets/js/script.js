@@ -128,7 +128,7 @@ function displayHistory(){
         const city = searchHistory[i];
         
         let buttonEl = document.createElement('button');
-        buttonEl.setAttribute('class', 'btn btn-secondary btn-history');
+        buttonEl.setAttribute('class', 'btn btn-secondary btn-history btn-lg');
         buttonEl.textContent = city;
         historyEl.prepend(buttonEl);
     }
