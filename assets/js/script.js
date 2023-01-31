@@ -18,8 +18,6 @@ asideEl.addEventListener('click', function(event){
         if (cityName === ''){
             alert('Please enter the name of a city.');
             return;
-        }else{
-            storeHistory(cityName);
         }
     }else if(event.target.matches('.btn-history')){
         cityName = event.target.textContent;
@@ -36,11 +34,15 @@ asideEl.addEventListener('click', function(event){
     .then(response => response.json())
     .then(function(location){
         console.log(location);
-        lat = location[0].lat;
-        lon = location[0].lon;
-
+        if (location.length === 0){
+            alert("The city you're trying to look for doesn't seem to exist. Please try again.");
+            return;
+        }else{
+            lat = location[0].lat;
+            lon = location[0].lon;
     // fetches current weather data and displays it on the page
-        return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${myAPIkey}`) 
+            return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${myAPIkey}`);
+        }
     })
 
     .then(response => response.json())
@@ -89,10 +91,9 @@ asideEl.addEventListener('click', function(event){
             </div>`;
 
             forecastRowEl.appendChild(cardEl);
-
-
         }
     })
+    storeHistory(cityName);
 
 })
 
