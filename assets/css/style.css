@@ -3,10 +3,17 @@
 }
 
 #today {
-    border: solid 1px black;
     padding: 5px;
 }
 
 .btn-history {
     margin: 10px;
+}
+
+.card-custom {
+    background-color: #2d3e50;
+}
+
+p {
+    font-size: 1.4em;
 }

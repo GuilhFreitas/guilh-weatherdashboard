@@ -38,6 +38,7 @@ asideEl.addEventListener('click', function(event){
             alert("The city you're trying to look for doesn't seem to exist. Please try again.");
             return;
         }else{
+            storeHistory(cityName);
             lat = location[0].lat;
             lon = location[0].lon;
     // fetches current weather data and displays it on the page
@@ -55,7 +56,8 @@ asideEl.addEventListener('click', function(event){
         let date = moment(weatherData.dt, 'X').format('DD/MM/YY');
 
         todayEl.innerHTML = ``;
-        todayEl.innerHTML = `<h2>${cityName} (${date})<img src=${iconURL}></h2>
+        todayEl.style.border = 'solid 1px black';
+        todayEl.innerHTML = `<h2 class='font-weight-bold'>${cityName} (${date})<img src=${iconURL}></h2>
         <p>Temp: ${temp} °C</p>
         <p>Wind: ${wind} KPH</p>
         <p>Humidity: ${humidity}%`;
@@ -81,7 +83,7 @@ asideEl.addEventListener('click', function(event){
             let iconURL = `http://openweathermap.org/img/wn/${dailyData.weather[0].icon}@2x.png`;
 
             let cardEl = document.createElement('div');
-            cardEl.setAttribute('class', 'card');
+            cardEl.setAttribute('class', 'card card-custom text-white');
             cardEl.innerHTML = `<div class="card-body">
             <h4>${date}</h4>
             <img src=${iconURL}>
@@ -93,7 +95,6 @@ asideEl.addEventListener('click', function(event){
             forecastRowEl.appendChild(cardEl);
         }
     })
-    storeHistory(cityName);
 
 })
 
