@@ -101,12 +101,18 @@ asideEl.addEventListener('click', function(event){
 // saves searched city to history in local storage and refreshes displayed history
 function storeHistory(cityName){
     let searchHistory = JSON.parse(localStorage.getItem('search_history'));
-        if (searchHistory !== null){
+        // doesn't allow duplicates
+        if(searchHistory.includes(cityName)){
+            return;
+        // only runs if there was something in local storage
+        }else if (searchHistory !== null){
+            // stores at most 6 cities in history
             if(searchHistory.length >= 6){
                 searchHistory.pop();
             }
             searchHistory.unshift(cityName);
             localStorage.setItem('search_history', JSON.stringify(searchHistory));
+        // fresh local storage item if there was nothing stored
         }else{
             localStorage.setItem('search_history', JSON.stringify([cityName]));
         }
