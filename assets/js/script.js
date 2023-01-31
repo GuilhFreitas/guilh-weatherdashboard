@@ -59,7 +59,9 @@ asideEl.addEventListener('click', function(event){
     .then(response => response.json())
     .then(function(forecastData){
         console.log(forecastData);
-        forecastEl.innerHTML = `<h3>5-Day Forecast:</h3>`;
+        forecastEl.innerHTML = `<h3>5-Day Forecast:</h3>
+        <div id="forecast-row" class="row justify-content-around"></div>`;
+        let forecastRowEl = document.querySelector('#forecast-row');
         console.log('forecast loop starts next')
         for (let i = 0; i < forecastData.list.length; i = i + 8) {
             console.log(`loop ${i}`);
@@ -80,7 +82,7 @@ asideEl.addEventListener('click', function(event){
             <p>Humidity: ${humidity}%
             </div>`;
 
-            forecastEl.appendChild(cardEl);
+            forecastRowEl.appendChild(cardEl);
 
 
         }

@@ -1,3 +1,12 @@
 .weather-header {
     background: linear-gradient(to right, #3463bc, #210a4d);
 }
+
+#today {
+    border: solid 1px black;
+    padding: 5px;
+}
+
+.btn-history {
+    margin: 10px;
+}
