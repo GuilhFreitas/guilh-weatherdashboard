@@ -101,13 +101,13 @@ asideEl.addEventListener('click', function(event){
 // saves searched city to history in local storage and refreshes displayed history
 function storeHistory(cityName){
     let searchHistory = JSON.parse(localStorage.getItem('search_history'));
-        // doesn't allow duplicates
-        if(searchHistory.includes(cityName)){
-            return;
         // only runs if there was something in local storage
-        }else if (searchHistory !== null){
+        if (searchHistory !== null){
+            // doesn't allow duplicates
+            if(searchHistory.includes(cityName)){
+                return;
             // stores at most 6 cities in history
-            if(searchHistory.length >= 6){
+            }else if(searchHistory.length >= 6){
                 searchHistory.pop();
             }
             searchHistory.unshift(cityName);
@@ -123,13 +123,15 @@ function storeHistory(cityName){
 // displays search history on the page
 function displayHistory(){
     let searchHistory = JSON.parse(localStorage.getItem('search_history'));
-    historyEl.innerHTML = '';
-    for (let i = 0; i < searchHistory.length; i++) {
-        const city = searchHistory[i];
-        
-        let buttonEl = document.createElement('button');
-        buttonEl.setAttribute('class', 'btn btn-secondary btn-history btn-lg');
-        buttonEl.textContent = city;
-        historyEl.prepend(buttonEl);
-    }
+    // only runs if there was something in local storage
+    if (searchHistory !== null){
+        historyEl.innerHTML = '';
+        for (let i = 0; i < searchHistory.length; i++) {
+            const city = searchHistory[i];
+
+            let buttonEl = document.createElement('button');
+            buttonEl.setAttribute('class', 'btn btn-secondary btn-history btn-lg');
+            buttonEl.textContent = city;
+            historyEl.appendChild(buttonEl);
+        }}
 }
